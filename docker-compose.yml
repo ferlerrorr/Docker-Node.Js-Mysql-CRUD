@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 
 services:
   nginx-mycrud:
@@ -47,9 +47,27 @@ services:
     networks:
       - mycrud-network
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-crud
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql-mycrud # This should point to the mysql-mycrud service
+      PMA_PORT: 3306
+      PMA_USER: "root"
+      PMA_PASSWORD: "mypass"
+      PMA_ARBITRARY: 1
+      UPLOAD_LIMIT: 10000M
+    depends_on:
+      - mysql-mycrud
+    networks:
+      - mycrud-network
+
 networks:
   mycrud-network:
     driver: bridge
 
 volumes:
-  db-data: ~
+  db-data: {}
