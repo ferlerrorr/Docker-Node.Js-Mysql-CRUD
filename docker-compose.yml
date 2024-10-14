@@ -15,11 +15,13 @@ services:
 
   node-mycrud:
     container_name: node-mycrud
-    image: node:16
+    build:
+      context: . # Context is the current directory
+      dockerfile: Dockerfile # Use the Dockerfile
     ports:
       - "9001:9001"
     volumes:
-      - ./backend:/application
+      - ./backend:/application # Ensure the backend is mounted correctly
       - ./docker-config/node/start_application.sh:/start_application.sh
     restart: always
     entrypoint: ["/bin/sh", "/start_application.sh"]

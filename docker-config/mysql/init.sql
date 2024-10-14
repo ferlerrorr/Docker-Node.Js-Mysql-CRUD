@@ -6,17 +6,20 @@ USE my_crud;
 
 -- Create the users table if it doesn't exist
 CREATE TABLE IF NOT EXISTS users (
-	id int(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    username varchar(150) NOT NULL,
-    password varchar(150) NOT NULL,
-    name varchar(150) NOT NULL,
-    email varchar(150) NOT NULL,
-    type varchar(50) NOT NULL,
-    active boolean DEFAULT false
+    id INT(5) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(150) NOT NULL UNIQUE, -- Ensure usernames are unique
+    password VARCHAR(150) NOT NULL,
+    name VARCHAR(150) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE, -- Ensure email addresses are unique
+    type VARCHAR(50) NOT NULL,
+    active BOOLEAN DEFAULT FALSE
 );
 
--- Grant root access from any host
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'mypass' WITH GRANT OPTION;
+-- Create the root user if it doesn't exist (optional)
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'mypass';
+
+-- Grant privileges to the root user on the my_crud database
+GRANT ALL PRIVILEGES ON my_crud.* TO 'root'@'%' WITH GRANT OPTION;
 
 -- Refresh privileges
 FLUSH PRIVILEGES;

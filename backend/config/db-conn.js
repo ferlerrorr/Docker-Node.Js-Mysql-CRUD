@@ -1,19 +1,18 @@
-const mysql = require("mysql");
-const dbConfig = require("./db-config.js");
+const mysql = require("mysql2"); // Changed from mysql to mysql2
 
 const connection = mysql.createConnection({
-    host: dbConfig.host,
-    user: dbConfig.user,
-    password: dbConfig.password,
-    database: dbConfig.database
+  host: process.env.DB_HOST || "mysql-mycrud", // Use 'mysql-mycrud' by default
+  user: process.env.DB_USER || "root",
+  password: process.env.DB_PASS || "mypass",
+  database: process.env.DB_NAME || "my_crud",
+  // Optional: set the connection to use mysql_native_password if needed
+  authPlugins: { mysql_native_password: () => () => null },
 });
 
-// open the MySQL connection
-try {
-    connection.connect(error => {
-        if (error) throw error
-        else console.log("Success on DB Connection.");
-    });
-} catch (error) {console.log("Error connecting nodeapp to database: " + error.message)}
-
-module.exports = connection;
+connection.connect((err) => {
+  if (err) {
+    console.error("Error connecting to MySQL:", err);
+    return;
+  }
+  console.log("Connected to MySQL");
+});

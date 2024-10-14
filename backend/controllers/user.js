@@ -30,13 +30,14 @@ exports.create = (req, res) => {
 
 // Retrieve all Users from the database.
 exports.getAll = (req, res) => {
-  User.getAllUsers((err, data) => {
-    if (err)
-      res.status(500).send({
-        message: err.message || "Some error occurred while retrieving users.",
-      });
-    else res.send(data);
-  });
+  // User.getAllUsers((err, data) => {
+  //   if (err)
+  //     res.status(500).send({
+  //       message: err.message || "Some error occurred while retrieving users.",
+  //     });
+  //   else res.send(data);
+  // });
+  res.send("ok");
 };
 
 // Find a single User with a userId
