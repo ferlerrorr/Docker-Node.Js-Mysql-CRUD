@@ -47,13 +47,13 @@ docker compose up -d
 
 ### 5. Verify the services
 
-- The Node.js application should now be running on `http://localhost:9001`
+- The Node.js Application should now be running on `http://localhost` or `http://localhost:80`
 - MySQL will be running within a container as specified in the Docker Compose file.
 
 
 ### 6. Stopping the services
 
-for the phpmyadmin, it will take a while for it to log to the DB in localhost:8080:
+for the phpmyadmin, it will take a while for it to log to the DB in localhost:8080
 
 
 
