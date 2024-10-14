@@ -47,7 +47,7 @@ docker compose up -d
 
 ### 5. Verify the services
 
-- The Node.js application should now be running on `http://localhost:3000`
+- The Node.js application should now be running on `http://localhost:9001`
 - MySQL will be running within a container as specified in the Docker Compose file.
 
 ### 6. Stopping the services
@@ -60,7 +60,7 @@ docker compose down
 
 ## Usage
 
-You can interact with the CRUD API by making requests to the Node.js server. The API will be running on `http://localhost:3000` and you can use tools like Postman or cURL to send HTTP requests.
+You can interact with the CRUD API by making requests to the Node.js server. The API will be running on `http://localhost:9001` and you can use tools like Postman or cURL to send HTTP requests.
 
 ## License
 
