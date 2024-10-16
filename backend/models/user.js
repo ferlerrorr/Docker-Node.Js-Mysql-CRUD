@@ -1,13 +1,12 @@
-const conn = require('../config/db-conn.js');
+const conn = require("../config/db-conn.js");
 
-const User = function (user){
-    this.id = user.id;
-    this.username = user.username;
-    this.password = user.password;
-    this.name = user.name;
-    this.email = user.email;
-    this.type = user.type;
-    this.active = user.active;
+const User = function (user) {
+  this.id = user.id;
+  this.username = user.username;
+  this.password = user.password;
+  this.name = user.name;
+  this.email = user.email;
+  this.active = user.active;
 };
 
 User.createUser = (newUser, result) => {
@@ -42,7 +41,7 @@ User.getById = (userId, result) => {
   });
 };
 
-User.getAllUsers = result => {
+User.getAllUsers = (result) => {
   conn.query("SELECT * FROM users", (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -58,7 +57,15 @@ User.getAllUsers = result => {
 User.updateById = (id, user, result) => {
   conn.query(
     "UPDATE users SET username = ?, password = ?, type = ?, email = ?, name = ?, active = ? WHERE id = ?",
-    [user.username, user.password, user.type, user.email, user.name, user.active, id],
+    [
+      user.username,
+      user.password,
+      user.type,
+      user.email,
+      user.name,
+      user.active,
+      id,
+    ],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -97,7 +104,7 @@ User.remove = (id, result) => {
   });
 };
 
-User.removeAll = result => {
+User.removeAll = (result) => {
   conn.query("DELETE FROM users", (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -107,6 +114,33 @@ User.removeAll = result => {
 
     console.log(`deleted ${res.affectedRows} users`);
     result(null, res);
+  });
+};
+
+// Method to check for duplicate username or email
+User.checkDuplicate = (username, email, result) => {
+  // Query to find users with the specified username or email
+  const query = "SELECT * FROM users WHERE username = ? OR email = ?";
+
+  // Execute the query with the provided parameters
+  conn.query(query, [username, email], (err, queryResult) => {
+    // Handle any database query errors
+    if (err) {
+      console.error("Database query error: ", err);
+      result(err, null); // Pass the error back to the callback
+      return;
+    }
+
+    // Check if any duplicates were found
+    if (queryResult.length > 0) {
+      // Duplicates found, return the user data
+      console.log("Duplicate user found: ", queryResult);
+      result(null, queryResult); // Return the found duplicates
+      return;
+    }
+
+    // No duplicates found, return an empty result
+    result(null, []); // Indicate that no duplicates were found
   });
 };
 
